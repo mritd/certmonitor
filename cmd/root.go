@@ -36,6 +36,7 @@ A simple website certificate monitor tool.`,
 			_ = cmd.Help()
 			return
 		}
+		logrus.Info("cert monitor starting...")
 		monitor.Start()
 	},
 }
