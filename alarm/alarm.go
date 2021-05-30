@@ -8,7 +8,6 @@ import (
 )
 
 func Alarm(message string) {
-
 	logrus.Debugf("Website alarm: %s", message)
 
 	var alarm []Config

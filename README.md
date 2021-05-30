@@ -6,7 +6,7 @@ A simple website certificate monitor tool
 
 ### For general user
 
-You can download the pre-compiled binaries for the corresponding platform from [release page](https://github.com/Gozap/certmonitor/releases).
+You can download the pre-compiled binaries for the corresponding platform from [release page](https://github.com/ytpay/certmonitor/releases).
 Next create a configuration file named `certmonitor.yaml`, like this:
 
 ``` yaml
@@ -64,5 +64,5 @@ smtp:
 run a container
 
 ``` sh
-docker run -dt --name cermonitor -v ./certmonitor.yaml:/certmonitor.yaml gozap/certmonitor:v1.0.1
+docker run -dt --name cermonitor -v ./certmonitor.yaml:/certmonitor.yaml ytpay/certmonitor:v1.0.1
 ```

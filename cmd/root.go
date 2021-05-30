@@ -3,11 +3,11 @@ package cmd
 import (
 	"os"
 
-	"github.com/gozap/certmonitor/alarm"
+	"github.com/ytpay/certmonitor/alarm"
 
 	"github.com/sirupsen/logrus"
 
-	"github.com/gozap/certmonitor/monitor"
+	"github.com/ytpay/certmonitor/monitor"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -17,9 +17,9 @@ var cfgFile string
 var debug bool
 
 var (
-	Version   string
-	BuildTime string
-	CommitID  string
+	version   string
+	buildTime string
+	commit    string
 )
 
 var rootCmd = &cobra.Command{

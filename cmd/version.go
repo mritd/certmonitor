@@ -21,7 +21,7 @@ var versionCmd = &cobra.Command{
 	Long: `
 Print version.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Printf(versionTpl, Version, runtime.GOOS+"/"+runtime.GOARCH, BuildTime, CommitID)
+		fmt.Printf(versionTpl, version, runtime.GOOS+"/"+runtime.GOARCH, buildTime, commit)
 	},
 }
 

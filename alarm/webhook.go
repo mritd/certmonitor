@@ -10,21 +10,20 @@ import (
 )
 
 type WebHookConfig struct {
-	Method  string        `yml:"method"`
-	TimeOut time.Duration `yml:"timeout"`
+	Method  string        `yaml:"method"`
+	Timeout time.Duration `yaml:"timeout"`
 }
 
 func WebHookExampleConfig() *WebHookConfig {
 	return &WebHookConfig{
 		Method:  "get",
-		TimeOut: 5 * time.Second,
+		Timeout: 5 * time.Second,
 	}
 }
 
 func (cfg *WebHookConfig) Send(targets []string, message string) {
-	timeout := time.Duration(cfg.TimeOut)
 	c := http.Client{
-		Timeout: timeout,
+		Timeout: cfg.Timeout,
 	}
 	for _, t := range targets {
 		switch strings.ToLower(cfg.Method) {
@@ -53,7 +52,7 @@ func (cfg *WebHookConfig) get(client http.Client, addr string, message string) {
 	if err != nil {
 		logrus.Errorf("WebHook alarm send failed [%s]: %s", addr, err)
 	} else if http.StatusOK != resp.StatusCode {
-		logrus.Errorf("WebHook alarm send failed [%s]: http status code %s", addr, resp.StatusCode)
+		logrus.Errorf("WebHook alarm send failed [%s]: http status code %d", addr, resp.StatusCode)
 	}
 }
 
@@ -64,6 +63,6 @@ func (cfg *WebHookConfig) post(client http.Client, addr string, message string) 
 	if err != nil {
 		logrus.Errorf("WebHook alarm send failed [%s]: %s", addr, err)
 	} else if http.StatusOK != resp.StatusCode {
-		logrus.Errorf("WebHook alarm send failed [%s]: http status code %s", addr, resp.StatusCode)
+		logrus.Errorf("WebHook alarm send failed [%s]: http status code %d", addr, resp.StatusCode)
 	}
 }

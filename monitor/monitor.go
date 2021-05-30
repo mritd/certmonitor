@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/gozap/certmonitor/alarm"
+	"github.com/ytpay/certmonitor/alarm"
 
 	"github.com/robfig/cron"
 
@@ -14,14 +14,20 @@ import (
 
 	"github.com/spf13/viper"
 
-	"github.com/gozap/certmonitor/utils"
+	"github.com/ytpay/certmonitor/utils"
 )
 
 type Config struct {
-	WebSites   []string
-	Cron       string
-	BeforeTime time.Duration
-	TimeOut    time.Duration
+	WebSites   []WebSite     `yaml:"web_sites"`
+	Cron       string        `yaml:"cron"`
+	BeforeTime time.Duration `yaml:"before_time"`
+	Timeout    time.Duration `yaml:"timeout"`
+}
+
+type WebSite struct {
+	Name        string `yaml:"name"`
+	Description string `yaml:"description"`
+	Address     string `yaml:"address"`
 }
 
 type WebSiteError struct {
@@ -40,28 +46,34 @@ func NewWebSiteError(msg string) *WebSiteError {
 
 func ExampleConfig() Config {
 	return Config{
-		WebSites: []string{
-			"https://google.com",
-			"https://mritd.me",
+		WebSites: []WebSite{
+			{
+				"bleem",
+				"博客主站点",
+				"https://mritd.com",
+			},
+			{
+				"baidu",
+				"百度首页",
+				"https://baidu.com",
+			},
 		},
 		Cron:       "@every 1h",
 		BeforeTime: 7 * 24 * time.Hour,
-		TimeOut:    10 * time.Second,
+		Timeout:    10 * time.Second,
 	}
 }
 
-func check(address string, beforeTime, timeout time.Duration) *WebSiteError {
+func check(website WebSite, beforeTime, timeout time.Duration) *WebSiteError {
+	logrus.Infof("Check website [%s]...", website.Address)
 
-	logrus.Infof("Check website [%s]...", address)
-
-	tr := &http.Transport{
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-	}
 	client := &http.Client{
-		Transport: tr,
-		Timeout:   timeout,
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		},
+		Timeout: timeout,
 	}
-	resp, err := client.Get(address)
+	resp, err := client.Get(website.Address)
 	if !utils.CheckErr(err) {
 		return nil
 	}
@@ -69,11 +81,11 @@ func check(address string, beforeTime, timeout time.Duration) *WebSiteError {
 
 	for _, cert := range resp.TLS.PeerCertificates {
 		if !cert.NotAfter.After(time.Now()) {
-			return NewWebSiteError(fmt.Sprintf("Website [%s] certificate has expired: %s", address, cert.NotAfter.Local().Format("2006-01-02 15:04:05")))
+			return NewWebSiteError(fmt.Sprintf("Website [%s](%s) certificate has expired: %s", website.Name, website.Address, cert.NotAfter.Local().Format("2006-01-02 15:04:05")))
 		}
 
 		if cert.NotAfter.Sub(time.Now()) < beforeTime {
-			return NewWebSiteError(fmt.Sprintf("Website [%s] certificate will expire, remaining time: %fh", address, cert.NotAfter.Sub(time.Now()).Hours()))
+			return NewWebSiteError(fmt.Sprintf("Website [%s](%s) certificate will expire, remaining time: %fh", website.Name, website.Address, cert.NotAfter.Sub(time.Now()).Hours()))
 		}
 	}
 
@@ -90,9 +102,9 @@ func Start() {
 	c := cron.New()
 
 	for _, website := range config.WebSites {
-		addr := website
+		w := website
 		err := c.AddFunc(config.Cron, func() {
-			err := check(addr, config.BeforeTime, config.TimeOut)
+			err := check(w, config.BeforeTime, config.Timeout)
 			if err != nil {
 				alarm.Alarm(err.Error())
 			}
