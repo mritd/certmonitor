@@ -7,17 +7,14 @@ COPY . ${SRC_PATH}
 WORKDIR ${SRC_PATH}
 
 RUN set -ex \
+    && apk add git \
     && export BUILD_VERSION=$(cat version) \
     && export BUILD_DATE=$(date "+%F %T") \
     && export COMMIT_SHA1=$(git rev-parse HEAD) \
     && go install -ldflags \
         "-X 'github.com/mritd/certmonitor/cmd.version=${BUILD_VERSION}' \
         -X 'github.com/mritd/certmonitor/cmd.buildDate=${BUILD_DATE}' \
-        -X 'github.com/mritd/certmonitor/cmd.commit=${COMMIT_SHA1}'" \
-    && scanelf --needed --nobanner /go/bin/certmonitor | \
-        awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' | \
-        sort -u | tee /dep_so
-
+        -X 'github.com/mritd/certmonitor/cmd.commit=${COMMIT_SHA1}'"
 
 FROM alpine:3.12
 
@@ -41,7 +38,6 @@ RUN apk upgrade \
     && echo ${TZ} > /etc/timezone \
     && rm -rf /var/cache/apk/*
 
-COPY --from=builder /dep_so /dep_so
-COPY --from=builder /go/bin/certmonitor /usr/bin/poetbot
+COPY --from=builder /go/bin/certmonitor /usr/bin/certmonitor
 
 CMD ["certmonitor"]

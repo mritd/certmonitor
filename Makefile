@@ -8,7 +8,7 @@ all: clean
 release: all
 	ghr -u mritd -t ${GITHUB_RELEASE_TOKEN} -replace -recreate --debug ${BUILD_VERSION} dist
 
-docker: all
+docker:
 	docker build -t mritd/certmonitor:${BUILD_VERSION} .
 
 clean:
