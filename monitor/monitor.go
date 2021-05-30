@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/ytpay/certmonitor/alarm"
+	"github.com/mritd/certmonitor/alarm"
 
 	"github.com/robfig/cron"
 
@@ -14,7 +14,7 @@ import (
 
 	"github.com/spf13/viper"
 
-	"github.com/ytpay/certmonitor/utils"
+	"github.com/mritd/certmonitor/utils"
 )
 
 type Config struct {

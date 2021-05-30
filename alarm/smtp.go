@@ -12,10 +12,10 @@ import (
 )
 
 type SMTPConfig struct {
-	Username string `yml:"username"`
-	Password string `yml:"password"`
-	From     string `yml:"from"`
-	Server   string `yml:"Server"`
+	Username string `yaml:"username"`
+	Password string `yaml:"password"`
+	From     string `yaml:"from"`
+	Server   string `yaml:"Server"`
 }
 
 func SMTPExampleConfig() *SMTPConfig {

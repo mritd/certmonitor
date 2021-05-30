@@ -1,8 +1,8 @@
 package alarm
 
 type Config struct {
-	Type    string   `yml:"type"`
-	Targets []string `yml:"targets"`
+	Type    string   `yaml:"type"`
+	Targets []string `yaml:"targets"`
 }
 
 func ExampleConfig() []*Config {

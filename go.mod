@@ -1,4 +1,4 @@
-module github.com/ytpay/certmonitor
+module github.com/mritd/certmonitor
 
 go 1.16
 

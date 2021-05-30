@@ -7,6 +7,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var (
+	version   string
+	buildTime string
+	commit    string
+)
+
 var versionTpl = `
 Name: certmonitor
 Version: %s

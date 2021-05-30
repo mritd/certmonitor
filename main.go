@@ -1,6 +1,6 @@
 package main
 
-import "github.com/ytpay/certmonitor/cmd"
+import "github.com/mritd/certmonitor/cmd"
 
 func main() {
 	cmd.Execute()
