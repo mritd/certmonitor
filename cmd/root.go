@@ -66,6 +66,7 @@ func initConfig() {
 		viper.Set("alarm", alarm.ExampleConfig())
 		viper.Set("smtp", alarm.SMTPExampleConfig())
 		viper.Set("webhook", alarm.WebHookExampleConfig())
+		viper.Set("telegram", alarm.TelegramConfigExample())
 		err = viper.WriteConfig()
 		if err != nil {
 			logrus.Fatal(err)

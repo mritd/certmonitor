@@ -34,6 +34,14 @@ func Alarm(message string) {
 				return
 			}
 			w.Send(a.Targets, message)
+		case "tg", "telegram":
+			var t TelegramConfig
+			err := viper.UnmarshalKey("telegram", &t)
+			if err != nil {
+				logrus.Errorf("Can't parse webhook config: %s", err)
+				return
+			}
+			t.Send(a.Targets, message)
 		default:
 			logrus.Error("Alarm type not support!")
 		}
