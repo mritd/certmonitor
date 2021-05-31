@@ -13,17 +13,35 @@ Next create a configuration file named `certmonitor.yaml`, like this:
 alarm:
 - type: smtp
   targets:
-  - your_email_address
+  - mritd1234@gmail.com
+- type: webhook
+  targets:
+  - https://google.com
+- type: telegram
+  targets:
+  - "-124568340456"
 monitor:
   websites:
-  - https://google.com
-  cron: '@every 10s'
+  - name: bleem
+    description: 博客主站点
+    address: https://mritd.com
+  - name: baidu
+    description: 百度首页
+    address: https://baidu.com
+  cron: '@every 1h'
   beforetime: 168h0m0s
+  timeout: 10s
 smtp:
-  username: your_email_address
-  password: "password"
-  from: your_email_address
-  server: "smtp_server:465"
+  username: mritd
+  password: password
+  from: mritd@mritd.me
+  server: smtp.qq.com:465
+telegram:
+  api: https://api.telegram.org
+  token: token_example
+webhook:
+  method: get
+  timeout: 5s
 ```
 
 Finally run it(Suppose the file you downloaded is named `certmonitor_linux_amd64`):
@@ -38,7 +56,6 @@ chmod +x certmonitor_linux_amd64
 build docker image
 
 ``` sh
-export version=v1.0.1
 make docker
 ```
 
@@ -48,21 +65,39 @@ create a config named `certmonitor.yaml`
 alarm:
 - type: smtp
   targets:
-  - your_email_address
+  - mritd1234@gmail.com
+- type: webhook
+  targets:
+  - https://google.com
+- type: telegram
+  targets:
+  - "-124568340456"
 monitor:
   websites:
-  - https://google.com
-  cron: '@every 10s'
+  - name: bleem
+    description: 博客主站点
+    address: https://mritd.com
+  - name: baidu
+    description: 百度首页
+    address: https://baidu.com
+  cron: '@every 1h'
   beforetime: 168h0m0s
+  timeout: 10s
 smtp:
-  username: your_email_address
-  password: "password"
-  from: your_email_address
-  server: "smtp_server:465"
+  username: mritd
+  password: password
+  from: mritd@mritd.me
+  server: smtp.qq.com:465
+telegram:
+  api: https://api.telegram.org
+  token: token_example
+webhook:
+  method: get
+  timeout: 5s
 ```
 
 run a container
 
 ``` sh
-docker run -dt --name cermonitor -v ./certmonitor.yaml:/certmonitor.yaml mritd/certmonitor:v1.0.1
+docker run -dt --name cermonitor -v ./certmonitor.yaml:/certmonitor.yaml mritd/certmonitor:CURRENT_VERSION
 ```
