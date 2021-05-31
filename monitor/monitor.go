@@ -102,7 +102,7 @@ func Start() {
 	c := cron.New()
 	for _, website := range config.WebSites {
 		w := website
-		logrus.Infof("add new website: %s ^ %s\n", w.Address, config.Cron)
+		logrus.Infof("add new website: %s ^ %s", w.Address, config.Cron)
 		err := c.AddFunc(config.Cron, func() {
 			err := check(w, config.BeforeTime, config.Timeout)
 			if err != nil {
