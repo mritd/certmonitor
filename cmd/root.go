@@ -73,7 +73,6 @@ func initConfig() {
 		}
 	}
 
-	viper.AutomaticEnv()
 	err := viper.ReadInConfig()
 	if err != nil {
 		logrus.Fatal(err)

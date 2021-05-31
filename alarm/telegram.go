@@ -9,8 +9,8 @@ import (
 )
 
 type TelegramConfig struct {
-	Api   string `yaml:"api"`
-	Token string `yaml:"token"`
+	Api   string `mapstructure:"api"`
+	Token string `mapstructure:"token"`
 }
 
 func TelegramConfigExample() *TelegramConfig {

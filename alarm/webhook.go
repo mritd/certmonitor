@@ -10,8 +10,8 @@ import (
 )
 
 type WebHookConfig struct {
-	Method  string        `yaml:"method"`
-	Timeout time.Duration `yaml:"timeout"`
+	Method  string        `mapstructure:"method"`
+	Timeout time.Duration `mapstructure:"timeout"`
 }
 
 func WebHookExampleConfig() *WebHookConfig {

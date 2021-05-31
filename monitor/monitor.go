@@ -18,16 +18,16 @@ import (
 )
 
 type Config struct {
-	WebSites   []WebSite     `yaml:"web_sites"`
-	Cron       string        `yaml:"cron"`
-	BeforeTime time.Duration `yaml:"before_time"`
-	Timeout    time.Duration `yaml:"timeout"`
+	WebSites   []WebSite     `mapstructure:"web_sites"`
+	Cron       string        `mapstructure:"cron"`
+	BeforeTime time.Duration `mapstructure:"before_time"`
+	Timeout    time.Duration `mapstructure:"timeout"`
 }
 
 type WebSite struct {
-	Name        string `yaml:"name"`
-	Description string `yaml:"description"`
-	Address     string `yaml:"address"`
+	Name        string `mapstructure:"name"`
+	Description string `mapstructure:"description"`
+	Address     string `mapstructure:"address"`
 }
 
 type WebSiteError struct {
@@ -102,7 +102,7 @@ func Start() {
 	c := cron.New()
 	for _, website := range config.WebSites {
 		w := website
-		logrus.Infof("add new website monitor: [%s] %s\n", w.Address, config.Cron)
+		logrus.Infof("add new website: %s ^ %s\n", w.Address, config.Cron)
 		err := c.AddFunc(config.Cron, func() {
 			err := check(w, config.BeforeTime, config.Timeout)
 			if err != nil {
