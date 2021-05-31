@@ -6,7 +6,7 @@ all: clean
 	bash .cross_compile.sh
 
 release: all
-	ghr -u mritd -t ${GITHUB_RELEASE_TOKEN} -replace -recreate --debug ${BUILD_VERSION} dist
+	ghr -u mritd -t ${GITHUB_TOKEN} -replace -recreate -name "Bump ${BUILD_VERSION}" --debug ${BUILD_VERSION} dist
 
 docker:
 	docker build -t mritd/certmonitor:${BUILD_VERSION} .
