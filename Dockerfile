@@ -40,4 +40,4 @@ RUN apk upgrade \
 
 COPY --from=builder /go/bin/certmonitor /usr/bin/certmonitor
 
-CMD ["certmonitor"]
+CMD ["certmonitor", "--config", "/certmonitor.yaml"]
