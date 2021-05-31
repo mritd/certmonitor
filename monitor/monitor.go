@@ -81,11 +81,11 @@ func check(website WebSite, beforeTime, timeout time.Duration) *WebSiteError {
 
 	for _, cert := range resp.TLS.PeerCertificates {
 		if !cert.NotAfter.After(time.Now()) {
-			return NewWebSiteError(fmt.Sprintf("Website [%s](%s) certificate has expired: %s", website.Name, website.Address, cert.NotAfter.Local().Format("2006-01-02 15:04:05")))
+			return NewWebSiteError(fmt.Sprintf("Website [%s](%s) %s certificate has expired: %s", website.Name, website.Description, website.Address, cert.NotAfter.Local().Format("2006-01-02 15:04:05")))
 		}
 
 		if cert.NotAfter.Sub(time.Now()) < beforeTime {
-			return NewWebSiteError(fmt.Sprintf("Website [%s](%s) certificate will expire, remaining time: %fh", website.Name, website.Address, cert.NotAfter.Sub(time.Now()).Hours()))
+			return NewWebSiteError(fmt.Sprintf("Website [%s](%s) %s certificate will expire, remaining time: %fh", website.Name, website.Description, website.Address, cert.NotAfter.Sub(time.Now()).Hours()))
 		}
 	}
 
