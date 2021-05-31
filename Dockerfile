@@ -16,7 +16,7 @@ RUN set -ex \
         -X 'github.com/mritd/certmonitor/cmd.buildDate=${BUILD_DATE}' \
         -X 'github.com/mritd/certmonitor/cmd.commit=${COMMIT_SHA1}'"
 
-FROM alpine:3.12
+FROM alpine:3.13
 
 LABEL maintainer="mritd <mritd@linux.com>"
 
