@@ -21,6 +21,9 @@ func TelegramConfigExample() *TelegramConfig {
 }
 
 func (cfg *TelegramConfig) Send(targets []string, message string) {
+	if cfg.Api == "" {
+		cfg.Api = "https://api.telegram.org"
+	}
 	bot, err := tb.NewBot(tb.Settings{
 		URL:    cfg.Api,
 		Token:  cfg.Token,

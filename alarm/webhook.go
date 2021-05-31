@@ -38,7 +38,6 @@ func (cfg *WebHookConfig) Send(targets []string, message string) {
 }
 
 func (cfg *WebHookConfig) get(client http.Client, addr string, message string) {
-
 	u, err := url.Parse(addr)
 	if err != nil {
 		logrus.Errorf("WebHook alarm send failed [%s]: %s", addr, err)

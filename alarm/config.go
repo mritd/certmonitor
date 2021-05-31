@@ -19,5 +19,11 @@ func ExampleConfig() []*Config {
 				"https://google.com",
 			},
 		},
+		{
+			Type: "telegram",
+			Targets: []string{
+				"-124568340456",
+			},
+		},
 	}
 }
